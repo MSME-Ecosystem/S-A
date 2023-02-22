@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import styles from '../styles/Home.module.css';
-import { yupResolver } from '@hookform/resolvers';
+import styles from '../styles/Home.module.css'
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 
 import { DisabledBtnLoader } from "../components/utils/loader";
