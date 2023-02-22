@@ -1,5 +1,5 @@
 {
-  "name": "nextjs",
+  "name": "smartagriculture",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,11 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "13.1.6",
-    "eslint": "8.32.0",
-    "eslint-config-next": "13.1.6",
-    "next": "13.1.6",
+    "axios": "^1.2.1",
+    "eslint": "8.29.0",
+    "eslint-config-next": "13.0.6",
+    "gsap": "^3.11.4",
+    "iron-session": "^6.3.1",
+    "moralis": "^2.10.0",
+    "next": "13.0.6",
+    "next-auth": "^4.18.6",
+    "octokit": "^2.0.10",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.41.0",
+    "swr": "^2.0.0",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@types/react": "18.0.27"
   }
 }
