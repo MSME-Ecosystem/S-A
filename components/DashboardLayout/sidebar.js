@@ -31,16 +31,16 @@ function Sidebar() {
               </a>
               <ul aria-expanded="false">
                 <li>
-                  <Link href="/transfer">Transfer</Link>
+                  <Link href="/dashboard/transfer">Transfer</Link>
                 </li>
                 <li>
-                  <a href="#">Sell</a>
+                  <a href="/dashboard/fund-account">Fund Account</a>
                 </li>
                 <li>
                   <a href="#">Buy</a>
                 </li>
                 <li>
-                  <a href="#">History</a>
+                  <a href="transaction-summary">History</a>
                 </li>
               </ul>
             </li>

@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import DashboardLayout from "../components/DashboardLayout/DashboardLayout";
+import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
 import Script from "next/script";
-import { DisabledBtnLoader } from "../components/utils/loader";
+import { DisabledBtnLoader } from "../../components/utils/loader";
 import Link from "next/link";
 export default function Transfer() {
   const [isLoading, setLoading] = useState(false);
+  const [showBalance, setShowBalance] = useState(false)
+
+  console.log(showBalance)
+
+
+  const bal = "252 000 NGN";
+
+  function Balance(){
+    if (showBalance == false){
+      setShowBalance(true)
+    }
+    else{
+      setShowBalance(false)
+    }
+    
+  }
   const resp = {
     respType: "Error",
   };
@@ -86,37 +102,24 @@ export default function Transfer() {
         <div className="container-fluid">
           <div className="row">
             <div className="col-xl-6 col-xxl-12">
-              <div className="row">
-                <div className="col-xl-12 mt-2">
+              <div className="row justify-content-center">
+                <div className="col-xl-10 mt-2 ">
                   <div className="card">
                     <div className="card-header d-sm-flex d-block pb-0 border-0">
                       <div>
                         <h4 className="fs-20 text-black">Quick Transfer</h4>
-                        <p className="mb-0 fs-12">Current Balance: ***</p>
+                        <p className="mb-0 fs-12">Current Balance: {showBalance ? bal : "******"}<i className={`fa ${showBalance? "fa-eye-slash" : "fa-eye"}`} onClick={Balance}></i></p>
                       </div>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body  ">
                       <div className="basic-form">
                         <form className="form-wrapper">
-                          <div className="form-group">
-                            <div className="input-group input-group-lg">
-                              <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                  Bank Name
-                                </span>
-                              </div>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="*********"
-                              />
-                            </div>
-                          </div>
+                         
                           <div className="form-group">
                             <div className="input-group input-group-lg">
                               <div className="input-group-prepend">
                                 <span className="input-group-text ">
-                                  Account Number
+                                User ID
                                 </span>
                               </div>
                               <input
@@ -130,7 +133,7 @@ export default function Transfer() {
                             <div className="input-group input-group-lg">
                               <div className="input-group-prepend">
                                 <span className="input-group-text">
-                                  Account Name
+                                  User Name
                                 </span>
                               </div>
                               <input
@@ -143,7 +146,7 @@ export default function Transfer() {
                           <div className="form-group">
                             <div className="input-group input-group-lg">
                               <div className="input-group-prepend">
-                                <span className="input-group-text">Amount</span>
+                                <span className="input-group-text">Voucher Amount</span>
                               </div>
                               <input
                                 type="text"
@@ -164,20 +167,7 @@ export default function Transfer() {
                                     className="btn  btn-primary text-white text-nowrap"
                                   >
                                     Send
-                                    <svg
-                                      className="ms-3 scale3"
-                                      width={16}
-                                      height={16}
-                                      viewBox="0 0 21 21"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M16.9638 11.5104L16.9721 14.9391L3.78954 1.7565C3.22815 1.19511 2.31799 1.19511 1.75661 1.7565C1.19522 2.31789 1.19522 3.22805 1.75661 3.78943L14.9392 16.972L11.5105 16.9637L11.5105 16.9637C10.7166 16.9619 10.0715 17.6039 10.0696 18.3978C10.0677 19.1919 10.7099 19.8369 11.5036 19.8388L11.5049 19.3388L11.5036 19.8388L18.3976 19.8554L18.4146 19.8555L18.4159 19.8555C18.418 19.8555 18.42 19.8555 18.422 19.8555C19.2131 19.8533 19.8528 19.2114 19.8555 18.4231C19.8556 18.4196 19.8556 18.4158 19.8556 18.4117L19.8389 11.5035L19.8389 11.5035C19.8369 10.7097 19.1919 10.0676 18.3979 10.0695C17.604 10.0713 16.9619 10.7164 16.9638 11.5103L16.9638 11.5104Z"
-                                        fill="white"
-                                        stroke="white"
-                                      />
-                                    </svg>
+                                  
                                   </button>
                                 )}
                               </div>
@@ -189,7 +179,7 @@ export default function Transfer() {
                   </div>
                 </div>
 
-                <div className="col-xl-12 mt-2">
+                <div className="col-xl-10 mt-2">
                   <div className="card text-center">
                     
                     <div className="card-body">

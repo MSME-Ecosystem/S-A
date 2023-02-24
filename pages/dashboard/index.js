@@ -1,5 +1,5 @@
 import React from "react";
-import DashboardLayout from "../components/DashboardLayout/DashboardLayout";
+import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
 import Script from "next/script"
 import Head from "next/head";
 export default function Dashboard() {
