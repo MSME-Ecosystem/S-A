@@ -1,6 +1,7 @@
 import Link from "next/link";
 import HomeLayout from "../components/HomeLayouts/HomeLayout";
 import styles from "../styles/Home.module.css";
+import { withSessionSsr } from "./api/auth/withSession";
 
 export default function Home() {
   return (
@@ -892,3 +893,5 @@ export default function Home() {
 Home.getLayout = function getLayout(page) {
   return <HomeLayout>{page}</HomeLayout>;
 };
+ 
+

@@ -1,6 +1,10 @@
 import React from "react";
-
-function Navbar() {
+import Link from "next/link";
+import { checkIfFileExists } from "@/lib/helpers";
+function Navbar({ user }) {
+  const logout = async () => {
+    await fetch("/api/auth/logout");
+  };
   return (
     <div className="header">
       <div className="header-content">
@@ -24,7 +28,7 @@ function Navbar() {
                   placeholder="Search here..."
                 />
                 <span className="input-group-text">
-                  <a href="javascript:void(0)">
+                  <a>
                     <i className="flaticon-381-search-2" />
                   </a>
                 </span>
@@ -78,7 +82,6 @@ function Navbar() {
               <li className="nav-item dropdown notification_dropdown">
                 <a
                   className="nav-link  ai-icon"
-                  href="javascript:void(0)"
                   role="button"
                   data-bs-toggle="dropdown"
                 >
@@ -191,16 +194,13 @@ function Navbar() {
                       </li>
                     </ul>
                   </div>
-                  <a className="all-notification" href="javascript:void(0)">
+                  <a className="all-notification">
                     See all notifications <i className="ti-arrow-right" />
                   </a>
                 </div>
               </li>
               <li className="nav-item dropdown notification_dropdown">
-                <a
-                  className="nav-link bell bell-link"
-                  href="javascript:void(0)"
-                >
+                <a className="nav-link bell bell-link">
                   <svg
                     width={24}
                     height={24}
@@ -226,7 +226,6 @@ function Navbar() {
               <li className="nav-item dropdown notification_dropdown d-sm-flex d-none">
                 <a
                   className="nav-link  ai-icon"
-                  href="javascript:void(0)"
                   role="button"
                   data-bs-toggle="dropdown"
                 >
@@ -319,15 +318,25 @@ function Navbar() {
                   className="nav-link"
                   href="#"
                   role="button"
-                  data-bs-toggle="dropdown"z
+                  data-bs-toggle="dropdown"
                 >
-                  <img src="/dashboard/images/profile/pic1.jpg" width={20} alt="" />
+                <img
+                    src={
+                      checkIfFileExists(
+                        "/uploads/DDon Ray-32aaf2e2-6d6c-4b56-83ca-506c0caf.jpg"
+                      )
+                        ? `/uploads/${user.user}-${user.loginID}.jpg`
+                        : "/dashboard/images/profile/pic1.jpg"
+                    }
+                    width={20}
+                    alt="image"
+                  />  
                   <div className="header-info">
-                    <span>Johndoe</span>
-                    <small>Super Admin</small>
+                    <span>{user.user}</span>
+                    <small>{user.email}</small>
                   </div>
                 </a>
-                <div className="dropdown-menu dropdown-menu-end">
+                {/*    <div className="dropdown-menu dropdown-menu-end">
                   <a href="app-profile.html" className="dropdown-item ai-icon">
                     <svg
                       id="icon-user1"
@@ -366,7 +375,11 @@ function Navbar() {
                     </svg>
                     <span className="ms-2">Inbox </span>
                   </a>
-                  <a href="page-login.html" className="dropdown-item ai-icon">
+                  <Link
+                    onClick={logout}
+                    href="/login"
+                    className="dropdown-item ai-icon"
+                  >
                     <svg
                       id="icon-logout"
                       xmlns="http://www.w3.org/2000/svg"
@@ -385,37 +398,12 @@ function Navbar() {
                       <line x1={21} y1={12} x2={9} y2={12} />
                     </svg>
                     <span className="ms-2">Logout </span>
-                  </a>
-                </div>
+                  </Link>
+                </div> */}
               </li>
             </ul>
           </div>
         </nav>
-        <div className="sub-header">
-          <div className="d-flex align-items-center flex-wrap me-auto">
-            <h5 className="dashboard_bar">Dashboard</h5>
-          </div>
-          <div className="d-flex align-items-center">
-            <a
-              href="javascript:void(0);"
-              className="btn btn-xs btn-primary light me-1"
-            >
-              Today
-            </a>
-            <a
-              href="javascript:void(0);"
-              className="btn btn-xs btn-primary light me-1"
-            >
-              Month
-            </a>
-            <a
-              href="javascript:void(0);"
-              className="btn btn-xs btn-primary light"
-            >
-              Year
-            </a>
-          </div>
-        </div>
       </div>
     </div>
   );

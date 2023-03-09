@@ -12336,7 +12336,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   .sidebar-right #header_color_14 + label,
   .sidebar-right #sidebar_color_14 + label,
   .sidebar-right #primary_color_14 + label {
-    background-color: #1367c8; }
+    background-color: #fff; }
   .sidebar-right #nav_header_color_15 + label,
   .sidebar-right #header_color_15 + label,
   .sidebar-right #sidebar_color_15 + label,
@@ -13057,7 +13057,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 [data-nav-headerbg="color_14"][data-theme-version="dark"],
 [data-nav-headerbg="color_14"] {
-  --nav-headbg: #1367c8; }
+  --nav-headbg: #fff; }
   [data-nav-headerbg="color_14"][data-theme-version="dark"] .nav-header .svg-logo-path,
   [data-nav-headerbg="color_14"] .nav-header .svg-logo-path {
     fill: #fff; }
@@ -13066,7 +13066,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     fill: #fff; }
   [data-nav-headerbg="color_14"][data-theme-version="dark"] .nav-header .logo-abbr .svg-logo-path,
   [data-nav-headerbg="color_14"] .nav-header .logo-abbr .svg-logo-path {
-    fill: #1367c8; }
+    fill: #fff; }
   [data-nav-headerbg="color_14"][data-theme-version="dark"] .nav-header .hamburger .line,
   [data-nav-headerbg="color_14"] .nav-header .hamburger .line {
     background: #fff !important; }
@@ -15231,7 +15231,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 [data-sidebarbg="color_14"][data-theme-version="dark"],
 [data-sidebarbg="color_14"] {
-  --sidebar-bg: #1367c8; }
+  --sidebar-bg: #fff; }
   [data-sidebarbg="color_14"][data-theme-version="dark"] .nav-label,
   [data-sidebarbg="color_14"] .nav-label {
     border-color: rgba(255, 255, 255, 0.1);
@@ -15290,7 +15290,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [data-sidebarbg="color_14"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu ul a:hover,
   [data-sidebarbg="color_14"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu ul a:focus,
   [data-sidebarbg="color_14"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu ul a.mm-active {
-    color: #1367c8;
+    color: #fff;
     background-color: transparent; }
   [data-sidebarbg="color_14"][data-theme-version="dark"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li.mm-active > a, [data-sidebarbg="color_14"][data-theme-version="dark"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li:hover > a,
   [data-sidebarbg="color_14"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li.mm-active > a,
@@ -15303,7 +15303,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [data-sidebarbg="color_14"][data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu ul a:hover,
   [data-sidebarbg="color_14"][data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu ul a:focus,
   [data-sidebarbg="color_14"][data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu ul a.mm-active {
-    color: #1367c8;
+    color: #fff;
     background-color: transparent; }
   [data-sidebarbg="color_14"][data-theme-version="dark"][data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu > li > a:before,
   [data-sidebarbg="color_14"][data-sidebar-style="mini"][data-layout="vertical"] .deznav .metismenu > li > a:before {
@@ -15340,7 +15340,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [data-sidebarbg="color_14"][data-sidebar-style="modern"][data-layout="vertical"] .deznav .metismenu ul a:hover,
   [data-sidebarbg="color_14"][data-sidebar-style="modern"][data-layout="vertical"] .deznav .metismenu ul a:focus,
   [data-sidebarbg="color_14"][data-sidebar-style="modern"][data-layout="vertical"] .deznav .metismenu ul a.mm-active {
-    color: #1367c8;
+    color: #fff;
     background-color: transparent; }
   [data-sidebarbg="color_14"][data-theme-version="dark"][data-sidebar-style="modern"][data-layout="vertical"] .deznav .metismenu > li > a,
   [data-sidebarbg="color_14"][data-sidebar-style="modern"][data-layout="vertical"] .deznav .metismenu > li > a {
@@ -15373,13 +15373,13 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   [data-sidebarbg="color_14"][data-layout="horizontal"] .deznav .metismenu ul a:hover,
   [data-sidebarbg="color_14"][data-layout="horizontal"] .deznav .metismenu ul a:focus,
   [data-sidebarbg="color_14"][data-layout="horizontal"] .deznav .metismenu ul a.mm-active {
-    color: #1367c8;
+    color: #fff;
     background-color: transparent; }
     [data-sidebarbg="color_14"][data-theme-version="dark"][data-layout="horizontal"] .deznav .metismenu ul a:hover:before, [data-sidebarbg="color_14"][data-theme-version="dark"][data-layout="horizontal"] .deznav .metismenu ul a:focus:before, [data-sidebarbg="color_14"][data-theme-version="dark"][data-layout="horizontal"] .deznav .metismenu ul a.mm-active:before,
     [data-sidebarbg="color_14"][data-layout="horizontal"] .deznav .metismenu ul a:hover:before,
     [data-sidebarbg="color_14"][data-layout="horizontal"] .deznav .metismenu ul a:focus:before,
     [data-sidebarbg="color_14"][data-layout="horizontal"] .deznav .metismenu ul a.mm-active:before {
-      border-color: #1367c8; }
+      border-color: #fff; }
   [data-sidebarbg="color_14"][data-theme-version="dark"][data-layout="horizontal"] .deznav .metismenu ul a:before,
   [data-sidebarbg="color_14"][data-layout="horizontal"] .deznav .metismenu ul a:before {
     border-color: #888ea8; }
@@ -16127,7 +16127,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 [data-headerbg="color_14"][data-theme-version="dark"],
 [data-headerbg="color_14"] {
-  --headerbg: #1367c8; }
+  --headerbg: #fff; }
   [data-headerbg="color_14"][data-theme-version="dark"] .pulse-css,
   [data-headerbg="color_14"] .pulse-css {
     background-color: white; }
@@ -16499,7 +16499,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   --rgba-primary-9: rgba(42, 42, 42, 0.9); }
 
 [data-primary="color_14"] {
-  --primary: #1367c8;
+  --primary: #fff;
   --secondary: #18bd68;
   --primary-hover: #0f4f99;
   --primary-dark: #061f3c;

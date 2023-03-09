@@ -1,12 +1,34 @@
 import React from "react";
-import Script from "next/script";
+// import Link from "next/link";/* 
+import { checkIfFileExists } from "@/lib/helpers"; 
 import Link from "next/link";
+ 
+function Sidebar({ user }) {
+  const logout = async () => {
+    await fetch("/api/auth/logout");
+  };
 
-function Sidebar() {
   return (
     <>
       <div className="deznav">
         <div className="deznav-scroll">
+          <div className="main-profile">
+            <div className="image-bx">
+              <img
+             
+              src={checkIfFileExists("/uploads/DDon Ray-32aaf2e2-6d6c-4b56-83ca-506c0caf.jpg")? `/uploads/${user.user}-${user.loginID}.jpg` : "/dashboard/images/profile/pic1.jpg" }
+              
+               alt="profile-img" />
+
+              <Link href="/dashboard/account/profile">
+                <i className="fa fa-cog" aria-hidden="true" />
+              </Link>
+            </div>
+            <h5 className="name">
+              <span className="font-w400">Hello,</span> {user.user}
+            </h5>
+            <p className="email">{user.email}</p>
+          </div>
           <ul className="metismenu" id="menu">
             <li className="nav-label first">Main Menu</li>
             <li>
@@ -30,22 +52,35 @@ function Sidebar() {
                 <span className="nav-text">Voucher Pay</span>
               </a>
               <ul aria-expanded="false">
+              {/*   <li>
+                  <Link href="/dashboard/voucher/create-account">
+                    Create Account
+                  </Link>
+                </li> */}
                 <li>
-                  <Link href="/dashboard/transfer">Transfer</Link>
+                  <Link href="/dashboard/voucher/transfer">Transfer</Link>
                 </li>
                 <li>
-                  <a href="/dashboard/fund-account">Fund Account</a>
+                  <Link href="/dashboard/voucher/sell">Sell</Link>
                 </li>
                 <li>
-                  <a href="#">Buy</a>
+                  <Link href="/dashboard/voucher/buy-voucher">
+                  Buy
+                  </Link>
+                </li>
+                 
+                <li>
+                  <Link href="/dashboard/voucher/customers">Customers</Link>
                 </li>
                 <li>
-                  <a href="transaction-summary">History</a>
+                  <Link href="/dashboard/voucher/transactions-history">
+                    History
+                  </Link>
                 </li>
               </ul>
             </li>
 
-            <li>
+            {/*  <li>
               <a
                 className="has-arrow ai-icon"
                 href="javascript:void()"
@@ -421,8 +456,37 @@ function Sidebar() {
                   <Link href="/login">Log Out</Link>
                 </li>
               </ul>
+            </li> */}
+            <li className="nav-label first">Settings</li>
+            <li>
+              <a
+                className="has-arrow ai-icon"
+                href="javascript:void()"
+                aria-expanded="false"
+              >
+                <i className="flaticon-381-settings-2" />
+
+                <span className="nav-text">Account Settings</span>
+              </a>
+              <ul aria-expanded="false">
+                <li>
+                  <Link href="/dashboard/account/profile">Profile</Link>
+                </li>
+                <li>
+                  <Link onClick={logout} href="/login">
+                    {" "}
+                    Log Out
+                  </Link>
+                </li>
+              </ul>
             </li>
           </ul>
+          <div className="copyright d-flex justify-content-center">
+            <p>
+              <strong>© Copyright</strong> {new Date().getFullYear()}{" "}
+              <strong>v1.0</strong>
+            </p>
+          </div>
         </div>
       </div>
     </>

@@ -9,22 +9,13 @@ import HomeLayout from "../components/HomeLayouts/HomeLayout";
 
 import { DisabledBtnLoader } from "../components/utils/loader";
 
-export default function SignUp({ BASE_URL }) {
-  const [Info, setInfo] = useState("");
-  const [isLoading, setLoading] = useState(false);
+export default function SignUp() {
+  /*  const [isLoading, setLoading] = useState(false);
 
-  let isAddMode = true;
-  useEffect(() => {
-    localStorage.removeItem("menu");
-  }, []);
-  // form validation rules
-  const validationSchema = Yup.object().shape({
-    userid: Yup.string().required("Email is required"),
-    email: Yup.string().required("First Name is required"),
-    password: Yup.string()
-      .transform((x) => (x === "" ? undefined : x))
-      .concat(isAddMode ? Yup.string().required("Password is required") : null),
-  });
+  const [Resp, setResp] = useState("");
+
+ 
+ 
 
   const {
     register,
@@ -32,43 +23,66 @@ export default function SignUp({ BASE_URL }) {
     watch,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    setLoading(true);
-    const customConfig = {
+  const onSubmit = async (data) => {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-    };
+      body: JSON.stringify({ data }),
+    });
+    const resp = await response.json();
+    console.log(resp);
 
-    axios
-      .get(
-        BASE_URL + "/api.php",
-        {
-          params: {
-            regid: "jsonprereg",
-            app: "truss",
-            companyemail: data.companyemail,
-            companyname: data.companyname,
-            companytype: data.companytype,
-            companytype: data.companytype,
-            companytype: data.companytype,
-            status: "0",
-            subbtn: "subbtn",
-          },
-        },
-        customConfig
-      )
-      .then((resp) => {
-        setInfo(resp.data.message);
-        setLoading(false);
-        if (resp.data.status === 200) {
-          setLoading(false);
-        }
-      })
-      .catch(function (error) {
-        setLoading(false);
-        setInfo(error.message);        
+    if (resp.success) {
+      setResp({
+        respType: "Success",
+        message: resp.message,
       });
+    } else {
+      setResp({
+        respType: "Error",
+        message: resp.message,
+      });
+    }
+    setLoading(false);
+  };
+ */
+
+  const [isLoading, setLoading] = useState(false);
+  const [resp, setResp] = useState({ respType: "", message: "" });
+console.log(resp)
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ data }),
+      });
+      const responseData = await response.json();
+      console.log(responseData)
+      setResp({
+        respType: responseData.success,
+        message: responseData.message,
+      });
+    } catch (error) {
+      setResp({
+        respType: "Error",
+        message: error.message,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -81,44 +95,46 @@ export default function SignUp({ BASE_URL }) {
         }}
       >
         <div className="container">
-          <div className="row align-items-center justify-content-between pt-5 pt-sm-5 pt-md-5 pt-lg-0">
-            <div className="col-md-7 col-lg-6">
+          <div className="row d-flex align-items-center justify-content-center pt-5 pt-sm-5 pt-md-5 pt-lg-0">
+            {/*   <div className="col-md-7 col-lg-6">
               <div className="hero-content-left text-white">
                 <h1 className="text-white">Create Your Account</h1>
                 <p className="lead">
-                      With MSMEs Ecosystem you are one step ahead.
-                    </p>
+                  With MSMEs Ecosystem you are one step ahead.
+                </p>
               </div>
-            </div>
-            <div className="col-md-5 col-lg-5">
+            </div> */}
+            <div className="col-md-7 col-lg-7">
               <div className="card login-signup-card shadow-lg mb-0">
                 <div className="card-body px-md-5 py-5">
                   <div className="mb-5">
                     <h6 className="h3">Create account</h6>
                     <p className="text-muted mb-0">
-                      Made with love by developers for developers.
+                      Made with love for Farmers by Farmers.
                     </p>
                   </div>
                   <form
                     className="login-signup-form"
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    {Info !== "" && (
-                    <div
-                      className="alert alert-info fade show text-center"  
-                      role="alert"
-                    >
-                      <strong >{Info}</strong> 
-                    </div>
-                  )} <div className="form-group mb-3">
+                    {resp.respType ? (
+                      <div className="alert alert-primary   fade show">
+                        <strong>Success!</strong> {resp.message}
+                      </div>
+                    ) :  (
+                      <div className="alert alert-danger   fade show">
+                        <strong>Error!</strong> {resp.message}
+                      </div>
+                    ) }
+                    <div className="form-group mb-3">
                       {/* Label */}
-                      <label htmlFor="companyname" className="pb-1">
-                        Organization Name
+                      <label htmlFor="first_name" className="pb-1">
+                        Business Name
                       </label>
-                      {errors.companyname && (
+                      {errors.business_name && (
                         <p className="text-danger" role="alert">
                           {" "}
-                          {errors.companyname?.message}
+                          {errors.business_name?.message}
                         </p>
                       )}
                       {/* Input group */}
@@ -129,25 +145,108 @@ export default function SignUp({ BASE_URL }) {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Organization Name"
-                          {...register("companyname", {
+                          placeholder="Business Name"
+                          {...register("business_name", {
                             required: "Please provide this detail",
                           })}
-                          name="companyname"
-                          id="companyname"
+                          id="business_name"
                         />
                       </div>
                     </div>
                     <div className="form-group mb-3">
                       {/* Label */}
-                      <label htmlFor="companyemail" className="pb-1">
+                      <label htmlFor="first_name" className="pb-1">
+                        First Name
+                      </label>
+                      {errors.first_name && (
+                        <p className="text-danger" role="alert">
+                          {" "}
+                          {errors.first_name?.message}
+                        </p>
+                      )}
+                      {/* Input group */}
+                      <div className="input-group input-group-merge">
+                        <div className="input-icon">
+                          <span className="ti-user color-primary" />
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="First Name"
+                          {...register("first_name", {
+                            required: "Please provide this detail",
+                          })}
+                          name="first_name"
+                          id="first_name"
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group mb-3">
+                      {/* Label */}
+                      <label htmlFor="last_name" className="pb-1">
+                        Last Name
+                      </label>
+                      {errors.last_name && (
+                        <p className="text-danger" role="alert">
+                          {" "}
+                          {errors.last_name?.message}
+                        </p>
+                      )}
+                      {/* Input group */}
+                      <div className="input-group input-group-merge">
+                        <div className="input-icon">
+                          <span className="ti-user color-primary" />
+                        </div>
+                        <input
+                          type="text"
+                          className="form-control"
+                          placeholder="Last Name"
+                          {...register("last_name", {
+                            required: "Please provide this detail",
+                          })}
+                          name="last_name"
+                          id="last_name"
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group mb-3">
+                      {/* Label */}
+                      <label htmlFor="last_name" className="pb-1">
+                        Phone Number
+                      </label>
+                      {errors.phone_number && (
+                        <p className="text-danger" role="alert">
+                          {" "}
+                          {errors.phone_number?.message}
+                        </p>
+                      )}
+                      {/* Input group */}
+                      <div className="input-group input-group-merge">
+                        <div className="input-icon">
+                          <span className="ti-mobile color-primary" />
+                        </div>
+                        <input
+                          type="tel"
+                          className="form-control"
+                          placeholder="XXX-XXXX-XXXX"
+                          {...register("phone_number", {
+                            required: "Please provide this detail",
+                          })}
+                          name="phone_number"
+                          id="phone_number"
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group mb-3">
+                      {/* Label */}
+                      <label htmlFor="email" className="pb-1">
                         Email Address
                       </label>
                       {/* Input group */}
-                      {errors.companyemail && (
+                      {errors.email && (
                         <p className="text-danger" role="alert">
                           {" "}
-                          {errors.companyemail?.message}
+                          {errors.email?.message}
                         </p>
                       )}
                       <div className="input-group input-group-merge">
@@ -157,12 +256,11 @@ export default function SignUp({ BASE_URL }) {
                         <input
                           type="email"
                           className="form-control"
-                          {...register("companyemail", {
-                            required:
-                              "Please provide your company email address",
+                          {...register("email", {
+                            required: "Please provide your email address",
                           })}
-                          name="companyemail"
-                          id="companyemail"
+                          name="email"
+                          id="email"
                         />
                       </div>
                     </div>
@@ -204,7 +302,29 @@ export default function SignUp({ BASE_URL }) {
                         </select>
                       </div>
                     </div>
- 
+
+                    <div className="form-group mb-3">
+                      {/* Label */}
+                      <label htmlFor="password" className="pb-1">
+                        Password
+                      </label>
+                      {/* Input group */}
+
+                      <div className="input-group input-group-merge">
+                        <div className="input-icon">
+                          <span className="ti-lock color-primary" />
+                        </div>
+                        <input
+                          type="password"
+                          className="form-control"
+                          {...register("password", {
+                            required: "Please provide a secured password",
+                          })}
+                          name="password"
+                          id="password"
+                        />
+                      </div>
+                    </div>
                     {/* Submit */}
                     {isLoading === true ? (
                       <DisabledBtnLoader />
@@ -219,7 +339,7 @@ export default function SignUp({ BASE_URL }) {
                 </div>
                 <div className="card-footer px-md-5 bg-transparent border-top text-center">
                   <small>Already have an account?</small>
-                  <Link href="/dashboard" className="small">
+                  <Link href="/login" className="small">
                     Sign in
                   </Link>
                 </div>
@@ -227,24 +347,14 @@ export default function SignUp({ BASE_URL }) {
             </div>
           </div>
         </div>
-        <div className="bottom-img-absolute">
+        {/*    <div className="bottom-img-absolute">
           <img src="img/wave-shap.svg" alt="wave shape" className="img-fluid" />
-        </div>
+        </div> */}
       </section>
     </div>
   );
 }
 
-export async function getServerSideProps({ params }) {
-  const userId = ""; //params.userId;
-  const BASE_URL = process.env.BASE_URL;
-  return {
-    props: {
-      BASE_URL,
-    },
-  };
-}
-
-SignUp.getLayout = function getLayout(page) {
-  return <HomeLayout>{page}</HomeLayout>;
-};
+// SignUp.getLayout = function getLayout(page) {
+//   return <HomeLayout>{page}</HomeLayout>;
+// };

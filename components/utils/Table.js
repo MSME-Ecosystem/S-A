@@ -3,7 +3,8 @@ import $ from "jquery";
 import dt from "datatables.net";
 $.DataTable = dt;
 
-const DataTable = ({ data, columns }) => {
+const DataTable = ({ data, columns, key }) => {
+  
   const tableRef = useRef(null);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const DataTable = ({ data, columns }) => {
       <thead className="thead-dark"  >
         <tr>
           {columns.map((column) => (
-            <th key={column.data}>{column.title}</th>
+            <th key={key}>{column.title}</th>
           ))}
         </tr>
       </thead>

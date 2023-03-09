@@ -5,7 +5,9 @@ import Navbar from "./Navbar";
 import Navheader from "./Navheader";
 import Chatbox from "./Chatbox";
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout({ children }) { 
+  const user = children.props.user;
+ 
   return (
     <>
       <Head>
@@ -35,8 +37,8 @@ export default function DashboardLayout({ children }) {
       <div id="main-wrapper">
         <Navheader />
         <Chatbox />
-        <Navbar />
-        <Sidebar />
+       <Navbar user={user} />  
+   <Sidebar user={user}  />  
 
         <main>{children}</main>
       </div>

@@ -13,7 +13,7 @@ import "../styles/css/style.css";
 import "../styles/css/responsive.css";
 
 //  Dashboard Layout CSS
-import "../styles/dashboard/style.css";
+ import "../styles/dashboard/style.css";
 import "public/dashboard/vendor/datatables/css/jquery.dataTables.min.css"
   
 export default function MyApp({ Component, pageProps }) {

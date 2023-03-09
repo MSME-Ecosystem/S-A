@@ -2,11 +2,10 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/dist/client/link";
 
-function Navheader() {
-  return (
-    <>
+function Navheader() { 
 
- 
+  return (
+    <> 
     <div className="nav-header">
        <Link className="brand-logo" href="/dashboard">
             <Image            
