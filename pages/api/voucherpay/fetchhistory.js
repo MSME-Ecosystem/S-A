@@ -2,7 +2,6 @@ import axios from "axios";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-
     console.log("Get")
     const config = {
       method: "GET",
@@ -29,15 +28,15 @@ export default async function handler(req, res) {
       console.log("33333333333333333");
       console.log(error);
     }
-  } else if (req.method === "POST") {
-    console.log("post")
+  } else if (req.method === "POST") {   
     const data = req.body.data;
+    console.log(data)
     const config = {
       method: "POST",
       maxBodyLength: Infinity,
       url: "https://dashboard.voucherpay.online/api/gethistory",
       headers: {
-        token: process.env.VOUCHER_PAY_PK_LIVE2,
+        token: process.env.VOUCHER_PAY_PK_LIVE,
         "Content-Type": "application/json",
       },
       data: data,

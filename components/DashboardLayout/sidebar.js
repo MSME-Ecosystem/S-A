@@ -5,7 +5,11 @@ import Link from "next/link";
  
 function Sidebar({ user }) {
   const logout = async () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("asgard")
+      localStorage.clear()
     await fetch("/api/auth/logout");
+    }
   };
 
   return (
@@ -13,7 +17,7 @@ function Sidebar({ user }) {
       <div className="deznav">
         <div className="deznav-scroll">
           <div className="main-profile">
-            <div className="image-bx">
+        {/*     <div className="image-bx">
               <img
              
               src={checkIfFileExists("/uploads/DDon Ray-32aaf2e2-6d6c-4b56-83ca-506c0caf.jpg")? `/uploads/${user.user}-${user.loginID}.jpg` : "/dashboard/images/profile/pic1.jpg" }
@@ -23,7 +27,7 @@ function Sidebar({ user }) {
               <Link href="/dashboard/account/profile">
                 <i className="fa fa-cog" aria-hidden="true" />
               </Link>
-            </div>
+            </div> */}
             <h5 className="name">
               <span className="font-w400">Hello,</span> {user.user}
             </h5>

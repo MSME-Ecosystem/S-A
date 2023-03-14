@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Sidebar from "./sidebar";
 import Navbar from "./Navbar";
 import Navheader from "./Navheader";
 import Chatbox from "./Chatbox";
 
-export default function DashboardLayout({ children }) { 
-  const user = children.props.user;
- 
+export default function DashboardLayout({ children }) {
+
+  const [user, setUser] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let menu = localStorage.getItem("asgard");
+      if (menu != null) {       
+        let obj = JSON.parse(menu);
+        setUser(obj);
+      } else {
+        Router.push("../login");
+      }
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -22,9 +34,9 @@ export default function DashboardLayout({ children }) {
         <meta
           name="keywords"
           content="Smart Agric, MSMEs Ecosystem, MSME Center, Agriculture, Smart Farming"
-        />            
-       <link rel="icon" href="/favicon.ico" />
-       {/* <link rel="stylesheet" href="/dashboard/style.css" /> */}
+        />
+        <link rel="icon" href="/favicon.ico" />
+        {/* <link rel="stylesheet" href="/dashboard/style.css" /> */}
       </Head>
 
       <div id="preloader">
@@ -37,8 +49,8 @@ export default function DashboardLayout({ children }) {
       <div id="main-wrapper">
         <Navheader />
         <Chatbox />
-       <Navbar user={user} />  
-   <Sidebar user={user}  />  
+        <Navbar user={user} />
+        <Sidebar user={user} />
 
         <main>{children}</main>
       </div>

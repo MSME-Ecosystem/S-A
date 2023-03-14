@@ -8,15 +8,17 @@ import useUser from "../lib/useUser";
 import fetchJson, { FetchError } from "../lib/fetchJson";
 import { DisabledBtnLoader } from "../components/utils/loader";
 
+import { useRouter } from "next/router";
+
 export default function Login() {
   const { mutateUser } = useUser({
     redirectTo: "/dashboard",
     redirectIfFound: true,
   });
+
+  const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [resp, setResp] = useState({ type: "", message: "" });
-
- 
 
   const {
     register,
@@ -27,15 +29,18 @@ export default function Login() {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
+      //  let Miracle =
       mutateUser(
         await fetchJson("/api/auth/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ data }),
+        }).then((response) => {
+          const lData = JSON.stringify(response);
+          localStorage.setItem("asgard", lData);
+          router.push("/dashboard");
         })
       );
-
-      setLoading(false);
     } catch (error) {
       if (error instanceof FetchError) {
         setResp({

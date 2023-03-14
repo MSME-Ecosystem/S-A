@@ -320,17 +320,13 @@ function Navbar({ user }) {
                   role="button"
                   data-bs-toggle="dropdown"
                 >
-                <img
-                    src={
-                      checkIfFileExists(
-                        "/uploads/DDon Ray-32aaf2e2-6d6c-4b56-83ca-506c0caf.jpg"
-                      )
-                        ? `/uploads/${user.user}-${user.loginID}.jpg`
-                        : "/dashboard/images/profile/pic1.jpg"
-                    }
+               {/*  <img
+                    src= 
+                     "/dashboard/images/profile/pic1.jpg"
+                    
                     width={20}
                     alt="image"
-                  />  
+                  />   */}
                   <div className="header-info">
                     <span>{user.user}</span>
                     <small>{user.email}</small>

@@ -8,11 +8,7 @@ export default withIronSessionApiRoute(searchRoute, ironOptions);
 
 async function searchRoute(req, res) {
   try {
-    const user = req.session.user;
-    if (!user) {
-      logger.error(`Unauthorized access attempt`);
-      return res.status(401).json({ message: "Unauthorized User" });
-    }
+    
 
     const { q } = req.query;
     const ipAddress =

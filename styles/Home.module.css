@@ -116,13 +116,16 @@
 }
 
 @media (prefers-color-scheme: dark) {
+
   .card,
   .footer {
     border-color: #222;
   }
+
   .code {
     background: #111;
   }
+
   .logo img {
     filter: invert(1);
   }
@@ -130,33 +133,33 @@
 
 .googleplaybtn,
 .appstorebtn {
-    padding: 12px 30px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
+  padding: 12px 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
 }
 
 .googleplaybtn {
-    background: #ffffff;
-    border-color: #ffffff;
-    color: #317351;
-    border-radius: 30px;
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #317351;
+  border-radius: 30px;
 }
 
 .googleplaybtn:hover {
-    background: transparent;
-    color: #ffffff;
-    border-color: #ffffff;
+  background: transparent;
+  color: #ffffff;
+  border-color: #ffffff;
 }
 
 .appstorebtn {
-    border-radius: 30px;
-    color: #ffffff;
-    border-color: #ffffff;
+  border-radius: 30px;
+  color: #ffffff;
+  border-color: #ffffff;
 }
 
 .appstorebtn:hover {
-    background: #ffffff;
-    color: #317351;
+  background: #ffffff;
+  color: #317351;
 }
 
 .solidbtn {
@@ -176,4 +179,110 @@
   -webkit-box-shadow: none;
   box-shadow: none;
   border: 2px solid #317351;
+}
+
+
+
+ 
+
+.uiSuccess,
+.uiError {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+}
+
+.uiSuccessCircle {
+  stroke-dasharray: 260.75219024795285px, 260.75219024795285px;
+  stroke-dashoffset: 260.75219024795285px;
+  animation: anierrorcircle 1.2s linear;
+
+
+
+
+  /* stroke-dasharray: 260.75219024795285px, 260.75219024795285px; */
+  /* stroke-dashoffset: 260.75219024795285px; */
+  /* transform: rotate(220deg); */
+  /* transform-origin: center center; */
+  /* stroke-linecap: round; */
+  /* animation: anisuccesscircle 1s ease-in both; */
+}
+
+.uiSuccessPath {
+  stroke-dasharray: 60px 64px;
+  stroke-dashoffset: 62px;
+  stroke-linecap: round;
+  animation: anisuccesspath .4s 1s ease-in both;
+}
+
+@keyframes anisuccesscircle {
+  to {
+    stroke-dashoffset: 782.2565707438586px;
+  }
+}
+
+@keyframes anisuccesspath {
+  0% {
+    stroke-dashoffset: 62px;
+  }
+
+  65% {
+    stroke-dashoffset: -5px;
+  }
+
+  84% {
+    stroke-dashoffset: 4px;
+  }
+
+  100% {
+    stroke-dashoffset: -2px;
+  }
+}
+
+.uiErrorCircle {
+  stroke-dasharray: 260.75219024795285px, 260.75219024795285px;
+  stroke-dashoffset: 260.75219024795285px;
+  animation: anierrorcircle 1.2s linear;
+}
+
+.uiErrorLine1 {
+  stroke-dasharray: 54px 55px;
+  stroke-dashoffset: 55px;
+  stroke-linecap: round;
+  animation: anierrorline .15s 1.2s linear both;
+}
+
+.uiErrorLine2 {
+  stroke-dasharray: 54px 55px;
+  stroke-dashoffset: 55px;
+  stroke-linecap: round;
+  animation: anierrorline .2s .9s linear both;
+}
+
+@keyframes anierrorline {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes anierrorcircle {
+  0% {
+    stroke-dasharray: 0, 260.75219024795285px;
+    stroke-dashoffset: 0;
+  }
+
+  35% {
+    stroke-dasharray: 120px, 120px;
+    stroke-dashoffset: -120px;
+  }
+
+  70% {
+    stroke-dasharray: 0, 260.75219024795285px;
+    stroke-dashoffset: -260.75219024795px;
+  }
+
+  100% {
+    stroke-dasharray: 260.75219024795285px, 0;
+    stroke-dashoffset: -260.75219024795px;
+  }
 }

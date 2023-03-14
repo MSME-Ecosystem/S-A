@@ -41,13 +41,8 @@ const Profile = ({ user }) => {
                     <div className="text-center">
                       <div className="my-profile">
                         <img
-                          src={
-                            checkIfFileExists(
-                              "/uploads/DDon Ray-32aaf2e2-6d6c-4b56-83ca-506c0caf.jpg"
-                            )
-                              ? `/uploads/${user.user}-${user.loginID}.jpg`
-                              : "/dashboard/images/profile/pic1.jpg"
-                          }
+                          src= "/dashboard/images/profile/pic1.jpg"
+                       
                           alt="profile-img"
                           className="rounded"
                         />

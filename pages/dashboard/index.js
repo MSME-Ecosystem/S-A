@@ -1,12 +1,48 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import DashboardLayout from "../../components/DashboardLayout/DashboardLayout";
-import Script from "next/script"; 
-import { withSessionSsr } from "../api/auth/withSession"; 
+import Script from "next/script";
+import { withSessionSsr } from "../api/auth/withSession";
 import axios from "axios";
-export default function Dashboard({balance}) {
-  const [voucherBalance, setvoucherBalance] = useState(balance);
+export default function Dashboard() {
+  const [voucherBalance, setvoucherBalance] = useState("");
   const [showBalance, setShowBalance] = useState(false);
- 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (typeof window !== "undefined") {
+        let menu = localStorage.getItem("asgard");
+        if (menu != null) {
+          let obj = JSON.parse(menu);
+         
+          let d = obj.vID;
+          const data = {
+            customer_id: d,
+          };
+        
+          try {
+            const response = await fetch("/api/voucherpay/getBalance", {
+              method: "POST",
+              headers: {
+                token: process.env.VOUCHER_PAY_PK_LIVE,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ data }),
+            });
+
+            const resp = await response.json();
+              
+            setvoucherBalance(resp?.current_balance);
+          } catch (error) {
+            console.error(error.response);
+          }
+        } else {
+          Router.push("../login");
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   function Balance() {
     if (showBalance == false) {
@@ -23,14 +59,16 @@ export default function Dashboard({balance}) {
             <div className="col-xl-3 col-sm-6 m-t35">
               <div className="card card-coin">
                 <div className="card-body text-center">
-                   <h6>Voucher Balance</h6>
-                  <h2 className="text-black mb-2 font-w600">&#x20A6;{showBalance ? voucherBalance : "******"} <i
-                            className={`fa ${
-                              showBalance ? "fa-eye-slash" : "fa-eye"
-                            }`}
-                            onClick={Balance}
-                          ></i></h2>
-                  
+                  <h6>Voucher Balance</h6>
+                  <h2 className="text-black mb-2 font-w600">
+                    &#x20A6;{showBalance ? voucherBalance : "******"}{" "}
+                    <i
+                      className={`fa ${
+                        showBalance ? "fa-eye-slash" : "fa-eye"
+                      }`}
+                      onClick={Balance}
+                    ></i>
+                  </h2>
                 </div>
               </div>
             </div>
@@ -2503,9 +2541,9 @@ export default function Dashboard({balance}) {
   );
 }
 
-Dashboard.getLayout = function getLayout(page) { 
+Dashboard.getLayout = function getLayout(page) {
   return (
-    <> 
+    <>
       <DashboardLayout>{page}</DashboardLayout>
       <Script src="/dashboard/vendor/global/global.min.js"></Script>
       <Script src="/dashboard/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></Script>
@@ -2520,47 +2558,48 @@ Dashboard.getLayout = function getLayout(page) {
   );
 };
 
-export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
-  try {
-    const { vid, user } = req.session;
-    const data = {
-      customer_id: vid.vID,
-    };
-    const config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: 'https://dashboard.voucherpay.online/api/getbalance',
-      headers: {
-        token: process.env.VOUCHER_PAY_PK_LIVE,
-        'Content-Type': 'application/json',
-      },
-      data,
-    };
-    const response = await axios(config);
-    const balance = response.data.current_balance;
+// export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
+//   try {
+//     const { vid, user } = req.session;
+//     console.log(vid)
+//     const data = {
+//       customer_id: vid?.vID,
+//     };
+//     const config = {
+//       method: 'post',
+//       maxBodyLength: Infinity,
+//       url: 'https://dashboard.voucherpay.online/api/getbalance',
+//       headers: {
+//         token: process.env.VOUCHER_PAY_PK_LIVE,
+//         'Content-Type': 'application/json',
+//       },
+//       data,
+//     };
+//     const response = await axios(config);
+//     const balance = response.data.current_balance;
 
-    if (!user) {
-      return {
-        redirect: {
-          destination: '/login',
-          permanent: false,
-        },
-      };
-    }
+//     if (!user) {
+//       return {
+//         redirect: {
+//           destination: '/login',
+//           permanent: false,
+//         },
+//       };
+//     }
 
-    return {
-      props: {
-        user,
-        balance,
-      },
-    };
-  } catch (error) {
-    console.error(error.response?.data ?? error.message);
-    return {
-      redirect: {
-        destination: '/dashboard',
-        permanent: false,
-      },
-    };
-  }
-});
+//     return {
+//       props: {
+//         user,
+//         balance,
+//       },
+//     };
+//   } catch (error) {
+//     console.error(error.response?.data ?? error.message);
+//     return {
+//       redirect: {
+//         destination: '/dashboard',
+//         permanent: false,
+//       },
+//     };
+//   }
+// });

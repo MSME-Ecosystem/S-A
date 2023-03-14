@@ -11,16 +11,56 @@ export default function GetHistory() {
 
   const [activeTab, setActiveTab] = useState(1);
 
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     const res = await fetch("/api/voucherpay/fetchhistory");
+  //     const newData = await res.json();
+  //     setData(newData);
+  //   }
+  //   fetchData();
+  // }, []);
+
   useEffect(() => {
-    async function fetchData() {
-      const res = await fetch("/api/voucherpay/fetchhistory");
-      const newData = await res.json();
-      setData(newData);
-    }
+    const fetchData = async () => {
+      if (typeof window !== "undefined") {
+        let menu = localStorage.getItem("asgard");
+        if (menu != null) {
+          let obj = JSON.parse(menu);
+          
+          let d = obj.vID;
+    
+          const data = {
+            customer_id: d,
+          };
+          console.log(data)
+
+          try {
+            const response = await fetch("/api/voucherpay/fetchhistory", {
+              method: "POST",
+              headers: {
+                token: process.env.VOUCHER_PAY_PK_LIVE,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({  data }),
+            });
+            const resp = await response.json();
+
+            setData(resp);
+         
+          } catch (error) {
+            console.error(error.response);
+          }
+        } else {
+          Router.push("../login");
+        }
+      }
+    };
+
     fetchData();
   }, []);
 
   const tableData = [];
+ 
 
   if (data.length > 0) {
     data.forEach((val) => {
@@ -32,10 +72,15 @@ export default function GetHistory() {
         `${val.transaction_amount}`,
         `${val.initial_balance}`,
         `${val.current_balance}`,
-        `${val.created}`,
+        `${val.created}`        
       ];
       tableData.push(res);
     });
+  }
+ 
+
+  function fetchUser(user_id) {
+    console.log(user_id)
   }
 
   let columns = [
@@ -50,10 +95,10 @@ export default function GetHistory() {
     {
       title: "Action",
       render: (data, type, row) => {
-        return `
-           
-        <a href="#0"
-        data-id="${row[8]}"
+        
+        return `           
+        <a href="#0"  
+        data-id="${row[2]}"  
          class="btn btn-primary test"
          data-bs-toggle="offcanvas"
          data-bs-target="#area-detail"
@@ -223,7 +268,7 @@ function SingleCustomerForm() {
 GetHistory.getLayout = function getLayout(page) { 
   return (
     <>
-      <DashboardLayout user={page.props.user} >{page}</DashboardLayout>
+      <DashboardLayout   >{page}</DashboardLayout>
       <Script src="/dashboard/vendor/global/global.min.js"></Script>
       <Script src="/dashboard/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></Script>
       <Script src="/dashboard/vendor/chart.js/Chart.bundle.min.js"></Script>
@@ -236,20 +281,20 @@ GetHistory.getLayout = function getLayout(page) {
   );
 };
  
-export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
-  const user = req.session.user;
+// export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
+//   const user = req.session.user;
   
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {
-      user: user,
-    },
-  };
-});
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {
+//       user: user,
+//     },
+//   };
+// });

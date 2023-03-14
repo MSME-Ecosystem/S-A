@@ -6,15 +6,17 @@ import axios from "axios";
 
 import { withSessionSsr } from "@/pages/api/auth/withSession";
 import { Response } from "@/components/utils/Response";
+import Link from "next/link";
 export default function Transfer({ balance }) {
   const [voucherBalance, setvoucherBalance] = useState(balance);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState("");
-
+  const [d, setD] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [searchLoading, isSearchLoading] = useState(false);
   const [showBalance, setShowBalance] = useState(false);
-  const [Resp, setResp] = useState("");
+  const [Resp, setResp] = useState({});
+  const [btnDis, setBtnDis] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,18 +28,56 @@ export default function Transfer({ balance }) {
           .get(`/api/voucherpay/search?q=${query}`)
           .then((response) => {
             console.log(response?.data.result.name);
+            setBtnDis(false);
             setResults(response?.data.result.name);
             isSearchLoading(false);
           })
           .catch((error) => {
+          setBtnDis(true);
             setResults("Invalid user");
-            isSearchLoading(false);
+            isSearchLoading(false); 
           });
       }
-    }, 2000);    
+    }, 2000);
     // Cleanup function to cancel timer if user types again
     return () => clearTimeout(timer);
   }, [query]);
+  useEffect(() => {
+    const fetchData = async () => {
+      if (typeof window !== "undefined") {
+        let menu = localStorage.getItem("asgard");
+        if (menu != null) {
+          let obj = JSON.parse(menu);
+          setD(obj);
+          let d = obj.vID;
+          const data = {
+            customer_id: d,
+          };
+
+          try {
+            const response = await fetch("/api/voucherpay/getBalance", {
+              method: "POST",
+              headers: {
+                token: process.env.VOUCHER_PAY_PK_LIVE,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ vid: d, data }),
+            });
+
+            const resp = await response.json();
+
+            setvoucherBalance(resp?.current_balance);
+          } catch (error) {
+            console.error(error.response);
+          }
+        } else {
+          Router.push("../login");
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleSearch = (event) => {
     setQuery(event.target.value);
@@ -50,9 +90,6 @@ export default function Transfer({ balance }) {
       setShowBalance(false);
     }
   }
-  const resp = {
-    respType: "Error",
-  };
 
   const {
     register,
@@ -61,33 +98,41 @@ export default function Transfer({ balance }) {
   } = useForm();
 
   const onSubmit = async (data) => {
+    if (voucherBalance <= 0 || voucherBalance < data.amount) {
+      setResp({
+        respType: "Error",
+        message: "Insufficient Balance",
+      });
+      return;
+    }
     setLoading(true);
     const response = await fetch("/api/voucherpay/tx", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ data }),
+      body: JSON.stringify({ data, d }),
     });
-
     const resp = await response.json();
-    console.log(resp);
+
+    console.log(resp)
+
     if (resp.status === true) {
       setResp({
         respType: "Success",
         message: resp.message,
       });
-    } else if (resp.status === false) {
+    } else if (resp.status === false   ) {
       setResp({
         respType: "Error",
         message: resp.message,
       });
-    } /*  else if (!resp.length){
+    }   else if (resp.statuscode === '206'){
       setResp({
         respType: "Error",
-        message: "Undefined Error",
+        message: resp.message,
       });
-    } */
+    }  
     setLoading(false);
   };
   return (
@@ -120,109 +165,130 @@ export default function Transfer({ balance }) {
                           className="form-wrapper"
                           onSubmit={handleSubmit(onSubmit)}
                         >
-                          {Resp.respType === "Success" ? (
-                            <div className="alert alert-primary   fade show">
-                              <strong>Success!</strong> {Resp.message}
-                            </div>
-                          ) : Resp.respType === "Error" ? (
+                          {Resp.respType === "Error" ? (
                             <div className="alert alert-danger   fade show">
                               <strong>Error!</strong> {Resp.message}
                             </div>
                           ) : (
                             ""
                           )}
+                          {Resp.respType === "Success" ? (
+                            <>
+                              <Response
+                                resp={{
+                                  respType: "success",
+                                  message: "Voucher transferred successfully",
+                                  application: "Voucher Sale",
+                                }}
+                              />
 
-                          <div className="form-group">
-                            <div className="input-group input-group-lg">
-                              <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                  Receiver Email
-                                </span>
+                              <div className="d-flex justify-content-center align-items-center">
+                                <Link
+                                  href="/dashboard"
+                                  className="fs-20 btn btn-xs btn-primary light me-1"
+                                >
+                                  Go Home
+                                </Link>
                               </div>
-                              <input
-                                {...register("to_id", {
-                                  required: "Please enter your Last Name",
-                                })}
-                                value={query}
-                                onChange={handleSearch}
-                                type="text"
-                                className="form-control"
-                              />
-                            </div>
-                            {results ? (
-                              <p className="pt-1 text-end">{results}</p>
-                            ) : (
-                             ""
-                            )}
-                          </div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="form-group">
+                                <div className="input-group input-group-lg">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text">
+                                      Receiver Email
+                                    </span>
+                                  </div>
+                                  <input
+                                    {...register("to_id", {
+                                      required: "Please enter your Last Name",
+                                    })}
+                                    value={query}
+                                    onChange={handleSearch}
+                                    type="text"
+                                    className="form-control"
+                                  />
+                                </div>
+                                {results ? (
+                                  <p className="pt-1 text-end">{results}</p>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
 
-                          <div className="form-group">
-                            <div className="input-group input-group-lg">
-                              <div className="input-group-prepend">
-                                <span className="input-group-text">Amount</span>
-                              </div>
-                              <input
-                                {...register("amount", {
-                                  required: "Please enter your Last Name",
-                                })}
-                                type="text"
-                                className="form-control"
-                                placeholder="0.000000"
-                              />
-                              <button
-                                className="fs-20 btn btn-xs btn-primary light me-1"
-                                type="button"
-                              >
-                                NGN
-                              </button>
-                            </div>
-                          </div>
-                          <div className="form-group">
-                            <div className="input-group input-group-lg">
-                              <div className="input-group-prepend">
-                                <span className="input-group-text">
-                                  Description
-                                </span>
-                              </div>
-                              <input
-                                {...register("transaction_desc", {
-                                  required: "Please enter your Last Name",
-                                })}
-                                type="text"
-                                className="form-control"
-                              />
-                            </div>
-                          </div>
-                          <div className="row mt-4 align-items-center">
-                            <div className="col-lg-6"></div>
-                            <div className="col-lg-6">
-                              <div className="d-flex justify-content-end">
-                                {isLoading === true ? (
+                              <div className="form-group">
+                                <div className="input-group input-group-lg">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text">
+                                      Amount
+                                    </span>
+                                  </div>
+                                  <input
+                                    {...register("amount", {
+                                      required: "Please enter your Last Name",
+                                    })}
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="0.000000"
+                                  />
                                   <button
                                     className="fs-20 btn btn-xs btn-primary light me-1"
                                     type="button"
-                                    disabled
                                   >
-                                    <span
-                                      className="spinner-border spinner-border-sm mx-2"
-                                      role="status"
-                                      aria-hidden="true"
-                                    >
-                                      {" "}
-                                    </span>{" "}
-                                    Send
+                                    NGN
                                   </button>
-                                ) : (
-                                  <button
-                                    type="submit"
-                                    className="fs-20 btn btn-xs btn-primary light me-1"
-                                  >
-                                    Send
-                                  </button>
-                                )}
+                                </div>
                               </div>
-                            </div>
-                          </div>
+                              <div className="form-group">
+                                <div className="input-group input-group-lg">
+                                  <div className="input-group-prepend">
+                                    <span className="input-group-text">
+                                      Description
+                                    </span>
+                                  </div>
+                                  <input
+                                    {...register("transaction_desc", {
+                                      required: "Please enter your Last Name",
+                                    })}
+                                    type="text"
+                                    className="form-control"
+                                  />
+                                </div>
+                              </div>
+                              <div className="row mt-4 align-items-center">
+                                <div className="col-lg-6"></div>
+                                <div className="col-lg-6">
+                                  <div className="d-flex justify-content-end">
+                                    {isLoading === true ? (
+                                      <button
+                                        className="fs-20 btn btn-xs btn-primary light me-1"
+                                        type="button"
+                                        disabled
+                                      >
+                                        <span
+                                          className="spinner-border spinner-border-sm mx-2"
+                                          role="status"
+                                          aria-hidden="true"
+                                        >
+                                          {" "}
+                                        </span>{" "}
+                                        Send
+                                      </button>
+                                    ) : (
+                                      <button
+                                        disabled={btnDis}
+                                        type="submit"
+                                        className="fs-20 btn btn-xs btn-primary light me-1"
+                                      >
+                                        Send
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </>
+                          )}
                         </form>
                       </div>
                     </div>
@@ -240,7 +306,7 @@ export default function Transfer({ balance }) {
 Transfer.getLayout = function getLayout(page) {
   return (
     <>
-      <DashboardLayout user={page.props.user}>{page}</DashboardLayout>
+      <DashboardLayout>{page}</DashboardLayout>
       <Script src="/dashboard/vendor/global/global.min.js"></Script>
       <Script src="/dashboard/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></Script>
       <Script src="/dashboard/vendor/chart.js/Chart.bundle.min.js"></Script>
@@ -253,48 +319,48 @@ Transfer.getLayout = function getLayout(page) {
   );
 };
 
-export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
-  try {
-    const { vid, user } = req.session;
-    const data = {
-      customer_id: vid.vID,
-    };
-    console.log(data);
-    const config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "https://dashboard.voucherpay.online/api/getbalance",
-      headers: {
-        token: process.env.VOUCHER_PAY_PK_LIVE,
-        "Content-Type": "application/json",
-      },
-      data,
-    };
-    const response = await axios(config);
-    const balance = response.data.current_balance;
+// export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
+//   try {
+//     const { vid, user } = req.session;
+//     const data = {
+//       customer_id: vid.vID,
+//     };
+//     console.log(data);
+//     const config = {
+//       method: "post",
+//       maxBodyLength: Infinity,
+//       url: "https://dashboard.voucherpay.online/api/getbalance",
+//       headers: {
+//         token: process.env.VOUCHER_PAY_PK_LIVE,
+//         "Content-Type": "application/json",
+//       },
+//       data,
+//     };
+//     const response = await axios(config);
+//     const balance = response.data.current_balance;
 
-    if (!user) {
-      return {
-        redirect: {
-          destination: "/login",
-          permanent: false,
-        },
-      };
-    }
+//     if (!user) {
+//       return {
+//         redirect: {
+//           destination: "/login",
+//           permanent: false,
+//         },
+//       };
+//     }
 
-    return {
-      props: {
-        user,
-        balance,
-      },
-    };
-  } catch (error) {
-    console.error(error.response?.data ?? error.message);
-    return {
-      redirect: {
-        destination: "/dashboard",
-        permanent: false,
-      },
-    };
-  }
-});
+//     return {
+//       props: {
+//         user,
+//         balance,
+//       },
+//     };
+//   } catch (error) {
+//     console.error(error.response?.data ?? error.message);
+//     return {
+//       redirect: {
+//         destination: "/dashboard",
+//         permanent: false,
+//       },
+//     };
+//   }
+// });

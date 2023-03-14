@@ -34,12 +34,7 @@ export default function Transfer() {
     document.body.removeChild(downloadLink);
   };
 
-  const bankDetails = {
-    accountNumber: "012345678909876",
-    bankName: "Miracle Bank",
-    beneficiary: "MSME Co-operative",
-    referenceNum: "jserlk23343p4mvefopkp3TLMLER4IP3MFF",
-  };
+  const [bankDetails, setBankDetails] = useState({})
 
   const handleCopyClick = async () => {
     try {
@@ -49,6 +44,26 @@ export default function Transfer() {
       console.error("Failed to copy text: ", err);
     }
   };
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("/api/voucherpay/getPersonaldetails");
+      
+     
+      const {data, account} = await res.json();
+
+      console.log(data)
+    
+    setBankDetails({
+        accountNumber:account[0]?.acno,
+        bankName: account[0]?.bankname,
+        beneficiary:  account[0]?.account_name,
+        referenceNum: `Smart Agric -${data[0]?.org_name}`,
+      });
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -70,12 +85,12 @@ export default function Transfer() {
               >
                 <i className="fa fa-bank" />
               </button>
-              <button
+             {/*  <button
                 onClick={qrcode}
                 className="fs-20 btn btn-xs btn-primary light me-1"
               >
                 <i className="fa fa-qrcode" />
-              </button>
+              </button> */}
             </div>
           </div>
           {activeTab === "banktransfer" ? (
@@ -160,14 +175,14 @@ export default function Transfer() {
                           className="btn btn-primary"
                           onClick={handleCopyClick}
                         >
-                          {isCopied ? "Copied" : <i className="fa fa-copy" />}
+                          {isCopied ? "Account NumberCopied" : <i className="fa fa-copy" />}
                         </button>
-                        <button
+                       {/*  <button
                           className="btn btn-primary"
                           onClick={handleCopyClick}
                         >
                           <i className="fa fa-share-nodes" />
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -226,7 +241,7 @@ export default function Transfer() {
 Transfer.getLayout = function getLayout(page) { 
   return (
     <>
-      <DashboardLayout user={page.props.user} >{page}</DashboardLayout>
+      <DashboardLayout >{page}</DashboardLayout>
       <Script src="/dashboard/vendor/global/global.min.js"></Script>
       <Script src="/dashboard/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></Script>
       <Script src="/dashboard/vendor/chart.js/Chart.bundle.min.js"></Script>
@@ -239,20 +254,20 @@ Transfer.getLayout = function getLayout(page) {
   );
 };
  
-export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
-  const user = req.session.user;
+// export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
+//   const user = req.session.user;
   
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {
-      user: user,
-    },
-  };
-});
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {
+//       user: user,
+//     },
+//   };
+// });

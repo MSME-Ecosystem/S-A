@@ -14,6 +14,7 @@ export default async function handler(req, res) {
     try {
       axios(config)
         .then(function (response) {
+          console.log(response.data.data)
          
           res.status(200).json(response?.data.data);
         })

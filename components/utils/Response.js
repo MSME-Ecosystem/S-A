@@ -1,11 +1,12 @@
-import React from 'react'
-import Link from 'next/link'
+import React from "react";
+import Link from "next/link";
+import styles from "@/styles/Home.module.css";
 
 export const Response = ({ resp }) => {
-
+ 
   return (
     <>
-      <section className="create-nft black-bg">
+     
         <div className="container">
           <div
             className="row wow animated fadeInUp justify-content-center align-items-center"
@@ -13,47 +14,145 @@ export const Response = ({ resp }) => {
             data-wow-delay="500ms"
           >
             <div className="col-xl-10 col-md-10 ">
-              <div className="create-nft-form-wrapper">
-                <div className="create-nft-form-border">
-                  <div
-                    className="wow animated fadeInUp justify-content-center align-items-center"
-                    data-wow-duration="2000ms"
-                    data-wow-delay="500ms"
-                  >
-                    {
-                      resp.respType === "success" ?
-                        <>                          
-                          <svg xmlns="http://www.w3.org/2000/svg" width="250" height="120" fill="#adf802" className="bi bi-check-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                          </svg>
-                          <h1 className="text-center">{resp.enterpriseType} Application</h1>
-                          <p className="text-center">{resp.message}</p>
-                        </>
-                        :
-                        <>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="250" height="150" fill="#D06079" className="bi bi-exclamation-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
-                          </svg>
-                          <p className="error">Unknown Error!!</p>
-                        </>
-
-                    }
-                    <div className='row justify-content-center align-items-center'>
-                      <Link href="/">
-                        <a className="boxed-btn justify-self-center text-center" >Home</a>
-                      </Link>
+              <div
+                className="wow animated fadeInUp justify-content-center align-items-center"
+                data-wow-duration="2000ms"
+                data-wow-delay="500ms"
+              >
+                {resp.respType === "success" ? (
+                  <>
+                     <div className="d-flex justify-content-center align-items-center">
+                      <div className={styles.uiSuccess}>
+                        <svg
+                          viewBox="0 0 87 87"
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                        >
+                          <g
+                            id="Page-1"
+                            stroke="none"
+                            strokeWidth={1}
+                            fill="none"
+                            fillRule="evenodd"
+                          >
+                            <g
+                              id="Group-3"
+                              transform="translate(2.000000, 2.000000)"
+                            >
+                              <circle
+                                id="Oval-2"
+                                stroke="rgba(165, 220, 134, 0.2)"
+                                strokeWidth={4}
+                                cx="41.5"
+                                cy="41.5"
+                                r="41.5"
+                              />
+                              <circle
+                                className={styles.uiSuccessCircle}
+                                id="Oval-2"
+                                stroke="#A5DC86"
+                                strokeWidth={4}
+                                cx="41.5"
+                                cy="41.5"
+                                r="41.5"
+                              />
+                              <polyline
+                                className={styles.uiSuccessPath}
+                                id="Path-2"
+                                stroke="#A5DC86"
+                                strokeWidth={4}
+                                points="19 38.8036813 31.1020744 54.8046875 63.299221 28"
+                              />
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
                     </div>
+                    <h1 className="text-center">
+                      {resp.application} 
+                    </h1>
+                    <p className="text-center">{resp.message}</p>
+                  </>
+                ) : (
+                  <>
+                    <div className="d-flex justify-content-center align-items-center">
 
-
-                  </div>
+                  
+                      <div className={styles.uiError}>
+                        <svg
+                          viewBox="0 0 87 87"
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                        >
+                          <g
+                            id="Page-1"
+                            stroke="none"
+                            strokeWidth={1}
+                            fill="none"
+                            fillRule="evenodd"
+                          >
+                            <g
+                              id="Group-2"
+                              transform="translate(2.000000, 2.000000)"
+                            >
+                              <circle
+                                id="Oval-2"
+                                stroke="rgba(252, 191, 191, .5)"
+                                strokeWidth={4}
+                                cx="41.5"
+                                cy="41.5"
+                                r="41.5"
+                              />
+                              <circle
+                                className={styles.uiErrorCircle}
+                                stroke="#F74444"
+                                strokeWidth={4}
+                                cx="41.5"
+                                cy="41.5"
+                                r="41.5"
+                              />
+                              <path
+                                className={styles.uiErrorLine1}
+                                d="M22.244224,22 L60.4279902,60.1837662"
+                                id="Line"
+                                stroke="#F74444"
+                                strokeWidth={3}
+                                strokeLinecap="square"
+                              />
+                              <path
+                                className={styles.uiErrorLine2}
+                                d="M60.755776,21 L23.244224,59.8443492"
+                                id="Line"
+                                stroke="#F74444"
+                                strokeWidth={3}
+                                strokeLinecap="square"
+                              />
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                    </div>
+                    <h1 className="text-center">
+                    Unknown Error!!
+                    </h1>
+                    
+                  </>
+                )}
+                <div className="d-flex justify-content-center align-items-center">
+                 {/*  <Link
+                    href="/"
+                    className="fs-20 btn btn-xs btn-primary light me-1"
+                  >
+                  Go  Home
+                  </Link> */}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
+       
     </>
   );
-}
+};

@@ -15,7 +15,7 @@ export default async function handler(req, res) {
       res.status(405).json({ message: "Method Not Allowed" });
       return;
     }
-console.log(body.data)
+    console.log(body.data);
     const {
       business_name,
       first_name,
@@ -46,7 +46,7 @@ console.log(body.data)
 
     const user = {
       userID: uuidv4(),
-    
+
       role: 601,
       business_name,
       firstName: first_name,
@@ -77,7 +77,7 @@ console.log(body.data)
       data,
     };
 
-    const { data: responseData } = await axios(config);   
+    const { data: responseData } = await axios(config);
 
     if (responseData?.status !== "200") {
       logger.error(`Error from API: ${responseData?.message}`);
@@ -118,15 +118,16 @@ console.log(body.data)
       res.status(500).json({ success: false, message: "User Record Exists!" });
       return;
     }
-
     res
       .status(200)
       .json({ success: true, message: "User created successfully!" });
   } catch (error) {
-    console.log(error);
+    console.log(error?.response.data);
+    const { status, message } = error?.response.data;
+  
     logger.error(
       `Error occurred from ${ipAddress} using ${userAgent}: ${error.message}`
     );
-    res.status(500).json({ success: false, message: "Something Went wrong" });
+    res.status(500).json({ success: false, status: status, message: message });
   }
 }

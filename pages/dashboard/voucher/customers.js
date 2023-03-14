@@ -25,6 +25,7 @@ export default function GetCustomers({ initialData }) {
       const res = [
         (sn += 1),
         `${val.customer_id}`,
+        `${val.last_name}`,
         `${val.first_name}`,
         `${val.mobile_number}`,
         `${val.email}`,
@@ -43,6 +44,7 @@ export default function GetCustomers({ initialData }) {
     { title: "Last Name" },
     { title: "Mobile Number" },
     { title: "Email Address" },
+    { title: "Address" },
     { title: "BVN" },
     { title: "NIN" },
   ];
@@ -90,7 +92,7 @@ export default function GetCustomers({ initialData }) {
 GetCustomers.getLayout = function getLayout(page) { 
   return (
     <>
-      <DashboardLayout user={page.props.user} >{page}</DashboardLayout>
+      <DashboardLayout  >{page}</DashboardLayout>
       <Script src="/dashboard/vendor/global/global.min.js"></Script>
       <Script src="/dashboard/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></Script>
       <Script src="/dashboard/vendor/chart.js/Chart.bundle.min.js"></Script>
@@ -103,20 +105,20 @@ GetCustomers.getLayout = function getLayout(page) {
   );
 };
  
-export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
-  const user = req.session.user;
-  console.log("serversideuser", user)
-  if (!user) {
-    return {
-      redirect: {
-        destination: "/login",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {
-      user: user,
-    },
-  };
-});
+// export const getServerSideProps = withSessionSsr(async ({ req, res }) => {
+//   const user = req.session.user;
+//   console.log("serversideuser", user)
+//   if (!user) {
+//     return {
+//       redirect: {
+//         destination: "/login",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {
+//       user: user,
+//     },
+//   };
+// });
